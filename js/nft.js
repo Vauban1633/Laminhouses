@@ -41,6 +41,19 @@ class NFTPage {
                 "type": "function"
             }
         ];
+
+        // Lamina1 network configuration
+        this.LAMINA1_CONFIG = {
+            chainId: '0x2a61', // 10849 in hex
+            chainName: 'Lamina1 Mainnet',
+            nativeCurrency: {
+                name: 'L1',
+                symbol: 'L1',
+                decimals: 18
+            },
+            rpcUrls: ['https://subnets.avax.network/lamina1/mainnet/rpc'],
+            blockExplorerUrls: ['https://lamina1.blockscan.com/']
+        };
         
         if (!this.tokenId) {
             console.error("No token ID provided");
@@ -85,11 +98,9 @@ class NFTPage {
                 throw new Error("Failed to load NFT data");
             }
 
-            // Mettre à jour l'interface utilisateur avec les données
             this.nftImage.src = nftData.image;
             this.nftTitle.textContent = nftData.name || `NFT #${this.tokenId}`;
             
-            // Charger la description sauvegardée ou utiliser celle des métadonnées
             const savedDescription = localStorage.getItem(`nft_description_${this.tokenId}`);
             this.descriptionDisplay.textContent = savedDescription || nftData.description || "No description available.";
             
@@ -112,7 +123,6 @@ class NFTPage {
         if (this.nftImage) {
             this.nftImage.style.display = 'none';
         }
-        // Masquer les sections supplémentaires en cas d'erreur
         if (this.inhabitantControls) {
             this.inhabitantControls.classList.add('hidden');
         }
@@ -129,20 +139,39 @@ class NFTPage {
                 });
             }
 
+            // Vérifier si le réseau actuel est Lamina1
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            if (chainId !== this.LAMINA1_CONFIG.chainId) {
+                try {
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: this.LAMINA1_CONFIG.chainId }],
+                    });
+                } catch (switchError) {
+                    // Si le réseau n'est pas configuré, l'ajouter
+                    if (switchError.code === 4902) {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [this.LAMINA1_CONFIG],
+                        });
+                    } else {
+                        throw switchError;
+                    }
+                }
+            }
+
             if (!window.web3Handler.contract) {
                 await window.web3Handler.connect();
             }
 
-            // Vérifier le contrat des habitants
-            const code = await window.web3Handler.provider.getCode(this.INHABITANTS_CONTRACT_ADDRESS);
-            if (code === '0x') {
-                throw new Error('Inhabitants contract not found at specified address');
-            }
-
+            // Initialiser le contrat avec le provider Lamina1
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            
             this.inhabitantsContract = new ethers.Contract(
                 this.INHABITANTS_CONTRACT_ADDRESS,
                 this.INHABITANTS_ABI,
-                window.web3Handler.provider
+                signer
             );
 
             return window.web3Handler;
@@ -153,7 +182,7 @@ class NFTPage {
         }
     }
 
-   setupEventListeners() {
+    setupEventListeners() {
         this.connectButton.addEventListener('click', async () => {
             try {
                 await this.connectWallet();
@@ -199,14 +228,13 @@ class NFTPage {
         
         if (selectedTokenId) {
             try {
-                const nftData = await window.web3Handler.getNFTDataFromContract(
-                    this.inhabitantsContract,
-                    selectedTokenId
-                );
+                const tokenURI = await this.inhabitantsContract.tokenURI(selectedTokenId);
+                const response = await fetch(tokenURI);
+                const nftData = await response.json();
+                
                 this.inhabitantImage.src = nftData.image;
                 this.inhabitantImage.classList.remove('hidden');
                 
-                // Save the selection in localStorage
                 localStorage.setItem(`inhabitant_${this.tokenId}`, selectedTokenId);
             } catch (error) {
                 console.error("Error loading inhabitant NFT:", error);
@@ -245,15 +273,9 @@ class NFTPage {
                         i
                     );
                     
-                    const nftData = await window.web3Handler.getNFTDataFromContract(
-                        this.inhabitantsContract,
-                        tokenId
-                    );
-                    
-                    if (!nftData) {
-                        console.log(`No NFT data for token ${tokenId}`);
-                        continue;
-                    }
+                    const tokenURI = await this.inhabitantsContract.tokenURI(tokenId);
+                    const response = await fetch(tokenURI);
+                    const nftData = await response.json();
                     
                     const option = document.createElement('option');
                     option.value = tokenId.toString();
@@ -297,10 +319,9 @@ class NFTPage {
             const savedInhabitant = localStorage.getItem(`inhabitant_${this.tokenId}`);
             if (savedInhabitant) {
                 try {
-                    const nftData = await window.web3Handler.getNFTDataFromContract(
-                        this.inhabitantsContract,
-                        savedInhabitant
-                    );
+                    const tokenURI = await this.inhabitantsContract.tokenURI(savedInhabitant);
+                    const response = await fetch(tokenURI);
+                    const nftData = await response.json();
                     this.inhabitantImage.src = nftData.image;
                     this.inhabitantImage.classList.remove('hidden');
                 } catch (error) {
