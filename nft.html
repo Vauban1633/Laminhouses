@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laminhouse Details</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="back-link">← Back to Collection</a>
+        <button id="connectWallet" class="connect-button">Connect Wallet</button>
+    </header>
+
+    <main class="nft-details">
+        <div class="nft-container">
+            <img id="nftImage" src="" alt="Laminhouse NFT" class="nft-large-image">
+            <div class="nft-info">
+                <h1 id="nftTitle">Loading...</h1>
+                
+                <div class="inhabitants-section">
+                    <h2>Inhabitants</h2>
+                    <div id="inhabitantControls" class="edit-section hidden">
+                        <select id="inhabitantSelect">
+                            <option value="">Select an inhabitant</option>
+                        </select>
+                    </div>
+                    <div id="inhabitantDisplay">
+                        <img id="inhabitantImage" class="inhabitant-image hidden" src="" alt="Inhabitant NFT">
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <h2>Laminhouse Description</h2>
+                    <div id="descriptionDisplay" class="description-text"></div>
+                    
+                    <div id="editSection" class="edit-section hidden">
+                        <textarea id="descriptionInput" rows="4" class="description-input"></textarea>
+                        <button id="saveButton" class="save-button">Save Description</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="js/web3.js"></script>
+    <script src="js/nft.js"></script>
+</body>
+</html>

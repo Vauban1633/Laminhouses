@@ -1,0 +1,262 @@
+:root {
+    --terracotta: #E2725B;
+    --white: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--white);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: var(--white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: var(--terracotta);
+    text-align: center;
+}
+
+.connect-button {
+    background-color: var(--terracotta);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.connect-button:hover {
+    opacity: 0.9;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.nft-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.nft-card:hover {
+    transform: translateY(-5px);
+}
+
+.nft-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.hidden {
+    display: none;
+}
+
+section {
+    margin: 40px 0;
+}
+
+/* Styles pour la page NFT individuelle */
+.back-link {
+    color: var(--terracotta);
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nft-details {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nft-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.nft-large-image {
+    width: 100%;
+    height: 800px;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.nft-info {
+    padding: 20px;
+}
+
+.description-section {
+    margin-top: 30px;
+}
+
+.description-text {
+    margin: 20px 0;
+    line-height: 1.6;
+    color: var(--gray);
+    white-space: pre-wrap;
+}
+
+.description-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--gray-light);
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 16px;
+    margin: 10px 0;
+    resize: vertical;
+}
+
+.save-button {
+    background-color: var(--terracotta);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.save-button:hover {
+    opacity: 0.9;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .nft-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .nft-large-image {
+        height: auto;
+    }
+}
+
+/* Style de base pour la section habitants */
+.inhabitants-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.inhabitants-section h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: #2d3748;
+}
+
+/* Style du menu déroulant */
+#inhabitantSelect {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 1rem;
+    color: #4a5568;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+}
+
+#inhabitantSelect:hover {
+    border-color: #cbd5e0;
+}
+
+#inhabitantSelect:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+/* Style de l'image de l'habitant */
+#inhabitantDisplay {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.inhabitant-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.inhabitant-image:not(.hidden) {
+    display: block;
+    margin: 0 auto;
+}
+
+.inhabitant-image:hover {
+    transform: scale(1.02);
+}
+
+/* Classes utilitaires */
+.hidden {
+    display: none !important;
+}
+
+/* Style des contrôles d'édition */
+.edit-section {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(247, 250, 252, 0.8);
+    border-radius: 6px;
+}
+
+/* Responsive design pour les petits écrans */
+@media (max-width: 768px) {
+    .inhabitants-section {
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+
+    .inhabitants-section h2 {
+        font-size: 1.25rem;
+    }
+
+    #inhabitantSelect {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Animation de chargement pour l'image */
+.inhabitant-image.loading {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+/* Style pour le conteneur de l'image quand aucun habitant n'est sélectionné */
+#inhabitantDisplay:empty::before {
+    content: 'No inhabitant selected';
+    display: block;
+    color: #718096;
+    font-style: italic;
+    padding: 1rem;
+    text-align: center;
+}

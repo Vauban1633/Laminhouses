@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laminhouses Collection</title>
+    <link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+<script src="js/web3.js"></script>
+<script src="js/nft.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Laminhouses Collection</h1>
+        <button id="connectWallet" class="connect-button">Connect Wallet</button>
+    </header>
+
+    <main>
+        <section id="userNFTs" class="nft-grid hidden">
+            <h2>Your Laminhouses</h2>
+            <div id="userNFTsGrid" class="grid-container"></div>
+        </section>
+
+        <section id="allNFTs">
+            <h2>All Laminhouses</h2>
+            <div id="allNFTsGrid" class="grid-container"></div>
+        </section>
+    </main>
+
+    <!-- Chargement des scripts dans le bon ordre -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <!-- S'assurer que web3.js est chargé en premier -->
+    <script src="js/web3.js"></script>
+    <!-- Charger main.js après -->
+    <script src="js/main.js"></script>
+</body>
+</html>
