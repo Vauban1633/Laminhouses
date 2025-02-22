@@ -55,7 +55,7 @@ class Web3Handler {
         this.signer = null;
         this.contract = null;
         this.userAddress = null;
-        this.REQUIRED_CHAIN_ID = '0x' + (9999).toString(16); // Chain ID de Lamina1 Mainnet en format hexadécimal
+        this.REQUIRED_CHAIN_ID = '10849'; // Chain ID de Lamina1 Mainnet en format hexadécimal
         this.RPC_URL = 'https://subnets.avax.network/lamina1/mainnet/rpc';
     }
 
